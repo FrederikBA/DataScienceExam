@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from services import test_service
+from services import movie_service
 from models import dtos
 
 app = FastAPI()
@@ -20,6 +20,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def read_root():
-    return test_service.get_data()
+    return movie_service.get_data()
+
+
+@app.get("/graph")
+def get_graph():
+    return movie_service.get_movie_graph()
