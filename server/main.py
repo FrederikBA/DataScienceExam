@@ -4,9 +4,8 @@ from pydantic import BaseModel
 from typing import List
 
 
-from services import test_service, recommender_service
+from services import  movie_service, recommender_service
 from ai_utils import generate_recommendations
-from services import movie_service
 from models import dtos
 from models.dtos import NeighborInput
 
@@ -33,7 +32,7 @@ class RecommendationInput(BaseModel):
 # Read Root.
 @app.get("/")
 def read_root():
-    return test_service.get_data()
+    return "data"
 
 @app.post("/neighbors")
 def get_neighbors(input_data: NeighborInput):

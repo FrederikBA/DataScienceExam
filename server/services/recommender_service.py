@@ -2,7 +2,6 @@ from typing import List
 from typing import Dict
 from models.dtos import GraphDTO
 import pandas as pd
-import tensorflow as tf
 import tensorflow_hub as hub
 from sklearn.neighbors import NearestNeighbors
 from sklearn.manifold import TSNE
