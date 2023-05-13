@@ -3,8 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
+
 from services import test_service, recommender_service
 from ai_utils import generate_recommendations
+from services import movie_service
 from models import dtos
 from models.dtos import NeighborInput
 
@@ -23,6 +25,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class RecommendationInput(BaseModel):
     input: str
@@ -44,3 +47,8 @@ def get_recommendations(input_data: RecommendationInput):
 @app.get("/embeddings")
 def get_embeddings() -> List[dict]:
     return recommender_service.get_embeddings()
+
+@app.get("/graph")
+def get_graph():
+    return movie_service.get_movie_graph()
+
