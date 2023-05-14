@@ -46,6 +46,7 @@ client/.pnp.js
 server/__pycache__
 server/services/__pycache__
 server/models/__pycache__
+server/pre_trained_models
 
 
 #misc

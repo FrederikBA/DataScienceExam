@@ -2,17 +2,21 @@ from typing import List
 from typing import Dict
 from models.dtos import GraphDTO
 import pandas as pd
-import tensorflow_hub as hub
+import tensorflow as tf
 from sklearn.neighbors import NearestNeighbors
 from sklearn.manifold import TSNE
 import os
 
-# Load Universal Sentence Encoder
-model_url = "https://tfhub.dev/google/universal-sentence-encoder/4"
-model = hub.load(model_url)
+# Load Universal Sentence Encoder from local directory
+model_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pre_trained_models")
+model = tf.saved_model.load(model_dir)
+
+print("Available signatures:")
+for signature_key in model.signatures:
+    print(f" - {signature_key}")
 
 def embed(texts):
-    return model(texts)
+    return model.signatures['serving_default'](tf.constant(texts))['outputs'].numpy()
 
 # Load movie data
 csv_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "movies_cleaned.csv")
@@ -39,7 +43,6 @@ def get_recommendations(summary: str) -> List[dict]:
 
     return recommendations
 
-
 def get_embeddings() -> List[dict]:
     tsne = TSNE(n_components=2)
     embeddings_2d = tsne.fit_transform(embeddings)
@@ -63,6 +66,3 @@ def get_neighbors(input_data: str) -> GraphDTO:
 
     graph_data = GraphDTO(nodes=nodes, links=links)
     return graph_data
-
-
-

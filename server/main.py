@@ -5,7 +5,6 @@ from typing import List
 
 
 from services import  movie_service, recommender_service
-from ai_utils import generate_recommendations
 from models import dtos
 from models.dtos import NeighborInput
 
