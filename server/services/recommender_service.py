@@ -49,8 +49,9 @@ def get_embeddings() -> List[dict]:
 
     embeddings_data = []
     for idx, row in df.iterrows():
-        embeddings_data.append({"x": embeddings_2d[idx][0], "y": embeddings_2d[idx][1], "title": row["title"], "description": row["summary"]})
+        embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
     
+
     return embeddings_data
 
 def get_neighbors(input_data: str) -> GraphDTO:

@@ -41,7 +41,7 @@ def get_neighbors(input_data: NeighborInput):
 def get_recommendations(input_data: RecommendationInput):
     return recommender_service.get_recommendations(input_data.input)
 
-# Visualizing our embeddings.
+#Visualizing our embeddings.
 @app.get("/embeddings")
 def get_embeddings() -> List[dict]:
     return recommender_service.get_embeddings()
