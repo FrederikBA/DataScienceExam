@@ -53,7 +53,7 @@ def get_movie_graph():
                     "id": user_id,
                     "name": user,
                     "val": 1,
-                    "color": "blue"
+                    "color": "yellow"
                 })
                 user_review_map[user] = user_id
             else:
