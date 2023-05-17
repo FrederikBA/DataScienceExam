@@ -41,15 +41,12 @@ def get_recommendations(summary: str) -> List[dict]:
     
     embeddings_data = []
     for idx, row in df.iterrows():
-        if():
-            embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
-        else:
             embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
 
 
     viewModel = {"recommendations": recommendations, "embeddings": embeddings_data}
 
-    return recommendations
+    return viewModel
 
 def get_embeddings() -> List[dict]:
     tsne = TSNE(n_components=2)

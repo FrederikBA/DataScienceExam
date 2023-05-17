@@ -60,3 +60,10 @@ ul.header li a:hover:not(.active) {
 .recommended-movies {
   list-style: none;
 }
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #000;
+}

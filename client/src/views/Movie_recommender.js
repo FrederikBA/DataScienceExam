@@ -10,24 +10,25 @@ const Movie_recommender = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [embeddings, setEmbeddings] = useState([]);
 
-  useEffect(() => {
-    fetchEmbeddings();
-  }, []);
+  // useEffect(() => {
+  //   fetchEmbeddings();
+  // }, []);
 
-  const fetchEmbeddings = async () => {
-    try {
-      const response = await api.getAxios().get(api.getUrl() + "/embeddings");
-      setEmbeddings(response.data);
-    } catch (error) {
-      console.error("Error fetching embeddings:", error);
-    }
-  };
+  // const fetchEmbeddings = async () => {
+  //   try {
+  //     const response = await api.getAxios().get(api.getUrl() + "/embeddings");
+  //     setEmbeddings(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching embeddings:", error);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await api.getAxios().post(api.getUrl() + "/recommend", { input: input });
     if (response.data) {
-      setRecommendations(response.data);
+      setRecommendations(response.data.recommendations);
+      setEmbeddings(response.data.embeddings)
       setIsLoading(false)
     } else {
       console.error("Recommendations not found in response data:", response.data);
@@ -36,6 +37,23 @@ const Movie_recommender = () => {
 
 
 
+  const colorRecommendedMovies = () => {
+    // Get titles of recommended movies
+    const recommendedTitles = recommendations.map((r) => r.title);
+
+    // Update colors of embeddings
+    const updatedEmbeddings = embeddings.map((e) => ({
+      ...e,
+      color: recommendedTitles.includes(e.title) ? 'red' : 'blue',
+    }));
+
+    setEmbeddings(updatedEmbeddings);
+  };
+
+  useEffect(() => {
+    colorRecommendedMovies();
+  }, [recommendations]);
+
   const plotData = [
     {
       x: embeddings.map((e) => e.x),
@@ -43,10 +61,12 @@ const Movie_recommender = () => {
       text: embeddings.map((e) => e.title),
       mode: "markers",
       type: "scatter",
-      marker: { size: 12 },
+      marker: {
+        size: 12,
+        color: embeddings.map((e) => e.color),
+      },
     },
   ];
-
   return (
     <div className="center">
       <h1>Movie Recommender</h1>
