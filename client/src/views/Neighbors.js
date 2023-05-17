@@ -51,7 +51,7 @@ const Neighbors = () => {
                     onChange={handleChange}
                     placeholder="Enter movie summary or keywords"
                 />
-                <button type="submit">Visualize Neighbors</button>
+                <button className="btn btn-secondary generate-btn" type="submit">Visualize Neighbors</button>
             </form>
             <Graph id="graph-id" data={graphData} config={graphConfig} />
         </div>

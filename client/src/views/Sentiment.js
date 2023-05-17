@@ -36,7 +36,7 @@ function Sentiment() {
         onChange={(e) => setText(e.target.value)}
       />
       <br />
-      <button type="submit">Get Sentiment</button>
+      <button className="btn btn-secondary generate-btn" type="submit">Get Sentiment</button>
     </form>
     {result && <p>Predicted sentiment: {result}</p>}
   </div>
