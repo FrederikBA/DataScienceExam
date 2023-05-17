@@ -43,3 +43,20 @@ ul.header li a:hover:not(.active) {
 .center {
   text-align: center;
 }
+
+.text-area-div {
+  display: flex;
+  justify-content: center;
+}
+
+.text-area {
+  width: 50%;
+}
+
+.generate-btn {
+  margin-top: 20px;
+}
+
+.recommended-movies {
+  list-style: none;
+}

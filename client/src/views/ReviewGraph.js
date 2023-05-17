@@ -2,7 +2,7 @@ import ForceGraph3D from 'react-force-graph-3d';
 import apiUtils from "../utils/apiUtils"
 import { useState, useEffect } from "react"
 
-const Two = () => {
+const ReviewGraph = () => {
     const [graphData, setGraphData] = useState();
     const URL = apiUtils.getUrl()
 
@@ -25,4 +25,4 @@ const Two = () => {
     )
 }
 
-export default Two
+export default ReviewGraph

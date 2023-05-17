@@ -11,16 +11,10 @@ import os
 model_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pre_trained_models")
 model = tf.saved_model.load(model_dir)
 
-print("Available signatures:")
-for signature_key in model.signatures:
-    print(f" - {signature_key}")
-
 def embed(texts):
     return model.signatures['serving_default'](tf.constant(texts))['outputs'].numpy()
 
 # Load movie data
-#csv_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..data/movies_cleaned.csv")
-#print(csv_file_path)
 df = pd.read_csv('../data/movies_cleaned.csv')
 df = df[["title", "genre", "summary", "directors", "actors"]]
 summaries = list(df['summary'])
@@ -36,10 +30,24 @@ def get_recommendations(summary: str) -> List[dict]:
     emb = embed([summary])
     neighbors = nn.kneighbors(emb, return_distance=False)[0]
     recommended_movies = df.iloc[neighbors]
+
     
     recommendations = []
     for _, row in recommended_movies.iterrows():
         recommendations.append({"title": row["title"], "description": row["summary"]})
+
+    tsne = TSNE(n_components=2)
+    embeddings_2d = tsne.fit_transform(embeddings)
+    
+    embeddings_data = []
+    for idx, row in df.iterrows():
+        if():
+            embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
+        else:
+            embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
+
+
+    viewModel = {"recommendations": recommendations, "embeddings": embeddings_data}
 
     return recommendations
 
@@ -49,7 +57,7 @@ def get_embeddings() -> List[dict]:
 
     embeddings_data = []
     for idx, row in df.iterrows():
-        embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
+        embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"], "marker": {"color": 'red'}})
     
 
     return embeddings_data
