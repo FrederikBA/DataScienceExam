@@ -15,14 +15,14 @@ const Recommendations = () => {
         e.preventDefault();
         const response = await api.getAxios().post(api.getUrl() + "/recommend", { input: input });
         if (response.data) {
-          setRecommendations(response.data.recommendations);
-          setIsLoading(false)
+            setRecommendations(response.data.recommendations);
+            setIsLoading(false)
 
         } else {
-          console.error("Recommendations not found in response data:", response.data);
+            console.error("Recommendations not found in response data:", response.data);
         }
-      };
-      
+    };
+
 
     return (
         <div className="center">
@@ -36,16 +36,16 @@ const Recommendations = () => {
                     />
                     <button className="btn btn-secondary generate-btn" type="submit">Get Recommendations</button>
                 </form>
-                <div>
-                    {!isLoading ?
+            </div>
+            <div>
+                {!isLoading ?
                     <div>
                         <ul>
-                        {recommendations.map((movie, index) => (
-                            <li className="recommended-movies" key={index}>{movie.title}</li>
-                        ))}
+                            {recommendations.map((movie, index) => (
+                                <li className="recommended-movies" key={index}>{movie.title}</li>
+                            ))}
                         </ul></div>
                     : <br></br>}
-                </div>
             </div>
         </div>
     )
