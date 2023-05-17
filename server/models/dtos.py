@@ -10,3 +10,6 @@ class GraphDTO(BaseModel):
 
 class NeighborInput(BaseModel):
     input: str
+
+class sentimentDTO(BaseModel):
+    text: str

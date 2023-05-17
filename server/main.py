@@ -50,6 +50,10 @@ def get_embeddings() -> List[dict]:
 def get_graph():
     return movie_service.get_movie_graph()
 
-@app.get("/sentiment")
-def get_sentiment():
-    return sentiment_service.predict_sentiment()
+class SentimentInput(BaseModel):
+    text: str
+
+@app.post("/sentiment")
+def get_sentiment(sentimentDTO: dtos.sentimentDTO):
+    return sentiment_service.predict_sentiment(sentimentDTO.text)
+    
