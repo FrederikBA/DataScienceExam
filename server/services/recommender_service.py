@@ -19,9 +19,9 @@ def embed(texts):
     return model.signatures['serving_default'](tf.constant(texts))['outputs'].numpy()
 
 # Load movie data
-csv_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "movies_cleaned.csv")
-print(csv_file_path)
-df = pd.read_csv(csv_file_path)
+#csv_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..data/movies_cleaned.csv")
+#print(csv_file_path)
+df = pd.read_csv('../data/movies_cleaned.csv')
 df = df[["title", "genre", "summary", "directors", "actors"]]
 summaries = list(df['summary'])
 
