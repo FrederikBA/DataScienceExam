@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import List
 
 
-from services import  movie_service, recommender_service
+from services import  movie_service, recommender_service, sentiment_service
 from models import dtos
 from models.dtos import NeighborInput
 
@@ -50,3 +50,10 @@ def get_embeddings() -> List[dict]:
 def get_graph():
     return movie_service.get_movie_graph()
 
+class SentimentInput(BaseModel):
+    text: str
+
+@app.post("/sentiment")
+def get_sentiment(sentimentDTO: dtos.sentimentDTO):
+    return sentiment_service.predict_sentiment(sentimentDTO.text)
+    
