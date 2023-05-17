@@ -5,6 +5,7 @@ import ReviewGraph from './views/ReviewGraph';
 import Recommendations from './views/Recommendations';
 import Neighbors from './views/Neighbors';
 import Evaluation from './views/Evaluation';
+import Sentiment from "./views/Sentiment";
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/neighbors" element={<Neighbors />} />
         <Route path="/evaluation" element={<Evaluation />} />
+        <Route path="/sentiment" element={<Sentiment />} />
       </Routes>
     </BrowserRouter>
   );
