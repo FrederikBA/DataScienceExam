@@ -21,6 +21,7 @@ summaries = list(df['summary'])
 
 # Generate embeddings
 embeddings = embed(summaries)
+print(embeddings)
 
 # Fit Nearest Neighbors
 nn = NearestNeighbors(n_neighbors=10)
@@ -36,12 +37,12 @@ def get_recommendations(summary: str) -> List[dict]:
     for _, row in recommended_movies.iterrows():
         recommendations.append({"title": row["title"], "description": row["summary"]})
 
-    tsne = TSNE(n_components=2)
+    tsne = TSNE(n_components=3)
     embeddings_2d = tsne.fit_transform(embeddings)
     
     embeddings_data = []
     for idx, row in df.iterrows():
-            embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"]})
+            embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "z": float(embeddings_2d[idx][2]), "title": row["title"], "description": row["summary"]})
 
 
     viewModel = {"recommendations": recommendations, "embeddings": embeddings_data}

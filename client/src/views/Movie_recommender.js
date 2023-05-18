@@ -58,15 +58,33 @@ const Movie_recommender = () => {
     {
       x: embeddings.map((e) => e.x),
       y: embeddings.map((e) => e.y),
+      z: embeddings.map((e) => e.z),  // New field for the z-coordinate
       text: embeddings.map((e) => e.title),
       mode: "markers",
-      type: "scatter",
+      type: "scatter3d",
       marker: {
-        size: 12,
+        size: 2,
         color: embeddings.map((e) => e.color),
       },
     },
   ];
+
+  const Card = ({ src, title, duration }) => {
+    return (
+      <div className="card">
+        <img src={src} alt="course image" />
+        <footer>
+          <h2>{title}</h2>
+        </footer>
+      </div>
+    );
+  };
+  
+  const Flexbox = (props) => {
+    return <div className="flex">{props.children}</div>;
+  };
+
+
   return (
     <div className="center">
       <h1>Movie Recommender</h1>
@@ -80,21 +98,29 @@ const Movie_recommender = () => {
       <div>
         {!isLoading ?
           <div>
-            <ul>
+            <ul id="customrow">
               {recommendations.map((movie, index) => (
-                <li className="recommended-movies" key={index}>{movie.title}</li>
+                      <Flexbox>
+                      <Card
+                        key={index}
+                        src="https://images.ctfassets.net/qz1k4i0kbshi/4JpOhXeZy37AWiqcn2dswS/c6e3aecdf50049a0ba6cfa01bfcdc669/html-css-logo.png?w=600&h=338&q=50"
+                        title={movie.title}
+                      />
+                      </Flexbox>
               ))}
             </ul></div>
           : <br></br>}
       </div>
-      {!isLoading ?
+      {!isLoading ? (
         <div>
           <Plot
             data={plotData}
             layout={{ width: 800, height: 600, title: "Movie Embeddings" }}
           />
         </div>
-        : <br></br>}
+      ) : (
+        <br />
+      )}
     </div>
   );
 };
