@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Graph } from 'react-d3-graph';
-import axios from 'axios';
 import api from '../utils/apiUtils';
 
 const Neighbors = () => {
