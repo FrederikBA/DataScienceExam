@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
 import api from "../utils/apiUtils";
+import Posters from '../components/Posters';
 
 const Movie_recommender = () => {
   const [input, setInput] = useState("");
@@ -28,6 +29,7 @@ const Movie_recommender = () => {
     const response = await api.getAxios().post(api.getUrl() + "/recommend", { input: input });
     if (response.data) {
       setRecommendations(response.data.recommendations);
+      console.log(recommendations)
       setEmbeddings(response.data.embeddings)
       setIsLoading(false)
     } else {
@@ -69,22 +71,6 @@ const Movie_recommender = () => {
     },
   ];
 
-  const Card = ({ src, title, duration }) => {
-    return (
-      <div className="card">
-        <img src={src} alt="course image" />
-        <footer>
-          <h2>{title}</h2>
-        </footer>
-      </div>
-    );
-  };
-  
-  const Flexbox = (props) => {
-    return <div className="flex">{props.children}</div>;
-  };
-
-
   return (
     <div className="center">
       <h1>Movie Recommender</h1>
@@ -95,21 +81,8 @@ const Movie_recommender = () => {
           <button className="btn btn-secondary generate-btn" type="submit">Generate Recommendations</button>
         </form>
       </div>
-      <div>
-        {!isLoading ?
-          <div>
-            <ul id="customrow">
-              {recommendations.map((movie, index) => (
-                      <Flexbox>
-                      <Card
-                        key={index}
-                        src="https://images.ctfassets.net/qz1k4i0kbshi/4JpOhXeZy37AWiqcn2dswS/c6e3aecdf50049a0ba6cfa01bfcdc669/html-css-logo.png?w=600&h=338&q=50"
-                        title={movie.title}
-                      />
-                      </Flexbox>
-              ))}
-            </ul></div>
-          : <br></br>}
+      <div className='container mt-5'>
+        <Posters movies={recommendations} isLoading={isLoading} />
       </div>
       {!isLoading ? (
         <div>

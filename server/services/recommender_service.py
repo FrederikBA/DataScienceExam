@@ -15,8 +15,8 @@ def embed(texts):
     return model.signatures['serving_default'](tf.constant(texts))['outputs'].numpy()
 
 # Load movie data
-df = pd.read_csv('../data/movies_cleaned.csv')
-df = df[["title", "genre", "summary", "directors", "actors"]]
+df = pd.read_csv('../data/movies.csv')
+df = df[["title", "genre", "summary", "directors", "actors", "Poster"]]
 summaries = list(df['summary'])
 
 # Generate embeddings
@@ -35,7 +35,7 @@ def get_recommendations(summary: str) -> List[dict]:
     
     recommendations = []
     for _, row in recommended_movies.iterrows():
-        recommendations.append({"title": row["title"], "description": row["summary"]})
+        recommendations.append({"title": row["title"], "description": row["summary"], "poster": row["Poster"]})
 
     tsne = TSNE(n_components=3)
     embeddings_2d = tsne.fit_transform(embeddings)
