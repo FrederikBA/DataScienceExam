@@ -49,6 +49,6 @@ def predict_movie_earnings(movieFeaturesDTO: dtos.MovieFeaturesDto):
     return estimated_earnings_service.predict_movie_earnings(movieFeaturesDTO)
 
 @app.post("/sentiment")
-def get_sentiment(sentimentDTO: dtos.sentimentDTO):
+def get_sentiment(sentimentDTO: dtos.SentimentDTO):
     return sentiment_service.predict_sentiment(sentimentDTO.text)
     

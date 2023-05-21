@@ -5,7 +5,7 @@ import Plot from "react-plotly.js";
 import api from "../utils/apiUtils";
 import Posters from '../components/Posters';
 
-const Movie_recommender = () => {
+const MovieRecommender = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
@@ -81,9 +81,11 @@ const Movie_recommender = () => {
           <button className="btn btn-secondary generate-btn" type="submit">Generate Recommendations</button>
         </form>
       </div>
-      <div className='container mt-5'>
-        <Posters movies={recommendations} isLoading={isLoading} />
-      </div>
+      {!isLoading ? (
+        <div className='container mt-5'>
+          <Posters movies={recommendations} isLoading={isLoading} />
+        </div>
+      ) : (<br />)}
       {!isLoading ? (
         <div>
           <Plot
@@ -98,6 +100,6 @@ const Movie_recommender = () => {
   );
 };
 
-export default Movie_recommender;
+export default MovieRecommender;
 
 

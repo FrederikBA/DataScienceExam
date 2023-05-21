@@ -88,3 +88,26 @@ ul.header li a:hover:not(.active) {
 .card-title {
   font-weight: bold;
 }
+
+.earnings-select {
+  margin-bottom: 10px;
+}
+
+.select-label {
+  font-weight: bold;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.grid-container>div {
+  display: flex;
+  flex-direction: column;
+}
+
+.earnings-btn {
+  width: 200px !important;
+}

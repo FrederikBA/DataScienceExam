@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import apiUtils from "../utils/apiUtils"
 
 const Sentiment = () => {
@@ -9,20 +9,20 @@ const Sentiment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (text.trim() === '') {
       setError('Type some text into the text area before clicking the button');
       setResult('');
       return;
     }
-  
+
     try {
       const response = await apiUtils.getAxios().post(URL + '/sentiment', { text }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.status === 200) {
         const data = response.data;
         setResult(data.sentiment);
@@ -38,7 +38,7 @@ const Sentiment = () => {
       setResult('');
     }
   };
-  
+
 
   return (
     <div className='center'>

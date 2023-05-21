@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header';
-import Movie_recommender from './views/Movie_recommender';
+import MovieRecommender from './views/MovieRecommender';
 import ReviewGraph from './views/ReviewGraph';
+import EstimatedEarnings from "./views/EstimatedEarnings";
 import Recommendations from './views/Recommendations';
 import Neighbors from './views/Neighbors';
 import Evaluation from './views/Evaluation';
@@ -15,7 +16,8 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<ReviewGraph />} />
-        <Route path="/movie" element={<Movie_recommender />} />
+        <Route path="/earnings" element={<EstimatedEarnings />} />
+        <Route path="/movie" element={<MovieRecommender />} />
         <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/neighbors" element={<Neighbors />} />
         <Route path="/evaluation" element={<Evaluation />} />

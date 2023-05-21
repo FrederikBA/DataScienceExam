@@ -20,14 +20,14 @@ const Neighbors = () => {
                 label: input
             };
             const updatedNodes = [...response.data.nodes, sourceNode];
-    
+
             // 2. Set the state with the updated nodes and links.
             setGraphData({ nodes: updatedNodes, links: response.data.links });
         } else {
-          console.error("Recommendations not found in response data:", response.data);
+            console.error("Recommendations not found in response data:", response.data);
         }
     };
-    
+
 
     const graphConfig = {
         nodeHighlightBehavior: true,
@@ -44,14 +44,17 @@ const Neighbors = () => {
     return (
         <div className="center">
             <h1>Neighbors</h1>
-            <form onSubmit={handleSubmit}>
-                <textarea
-                    value={input}
-                    onChange={handleChange}
-                    placeholder="Enter movie summary or keywords"
-                />
-                <button className="btn btn-secondary generate-btn" type="submit">Visualize Neighbors</button>
-            </form>
+            <div className="text-area-div">
+                <form className="form-group text-area" onSubmit={handleSubmit}>
+                    <textarea
+                        value={input}
+                        onChange={handleChange}
+                        placeholder="Enter movie summary or keywords"
+                        className="form-control text-area"
+                    />
+                    <button className="btn btn-secondary generate-btn" type="submit">Visualize Neighbors</button>
+                </form>
+            </div>
             <Graph id="graph-id" data={graphData} config={graphConfig} />
         </div>
     )
