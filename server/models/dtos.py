@@ -13,3 +13,12 @@ class NeighborInput(BaseModel):
 
 class sentimentDTO(BaseModel):
     text: str
+
+class MovieFeaturesDto(BaseModel):
+    year: int
+    runtime: int
+    rating: float
+    certificate: int
+
+class RecommendationDto(BaseModel):
+    input: str

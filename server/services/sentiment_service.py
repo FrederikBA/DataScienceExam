@@ -28,4 +28,3 @@ def predict_sentiment(text):
 # Call the predict_sentiment function with a text input
 #review_text = "The plot is stolen from many different movies, there was only 3 good actors, the characters are either bland or stereotypical, and yet it made almost 3 billion. When I think a film is overrated I usually like it. I don't think of it as Oscar worthy, but I like it."
 #predicted_sentiment = predict_sentiment(text)
-#print("Predicted sentiment for text:", predicted_sentiment)

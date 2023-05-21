@@ -21,7 +21,6 @@ summaries = list(df['summary'])
 
 # Generate embeddings
 embeddings = embed(summaries)
-print(embeddings)
 
 # Fit Nearest Neighbors
 nn = NearestNeighbors(n_neighbors=10)

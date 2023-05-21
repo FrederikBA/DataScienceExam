@@ -1,10 +1,9 @@
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from typing import List
 
 
-from services import  movie_service, recommender_service, sentiment_service
+from services import  graph_service, recommender_service, sentiment_service, estimated_earnings_service
 from models import dtos
 from models.dtos import NeighborInput
 
@@ -24,34 +23,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-class RecommendationInput(BaseModel):
-    input: str
-
 # Read Root.
 @app.get("/")
 def read_root():
-    return "data"
+    return "Welcome to the Data Science course exam API!"
 
 @app.post("/neighbors")
 def get_neighbors(input_data: NeighborInput):
     return recommender_service.get_neighbors(input_data.input)
 
 @app.post("/recommend")
-def get_recommendations(input_data: RecommendationInput):
+def get_recommendations(input_data: dtos.RecommendationDto):
     return recommender_service.get_recommendations(input_data.input)
 
-#Visualizing our embeddings.
 @app.get("/embeddings")
 def get_embeddings() -> List[dict]:
     return recommender_service.get_embeddings()
 
 @app.get("/graph")
 def get_graph():
-    return movie_service.get_movie_graph()
+    return graph_service.get_movie_graph()
 
-class SentimentInput(BaseModel):
-    text: str
+@app.post("/earnings")
+def predict_movie_earnings(movieFeaturesDTO: dtos.MovieFeaturesDto):
+    return estimated_earnings_service.predict_movie_earnings(movieFeaturesDTO)
 
 @app.post("/sentiment")
 def get_sentiment(sentimentDTO: dtos.sentimentDTO):
