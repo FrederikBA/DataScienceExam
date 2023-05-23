@@ -18,4 +18,7 @@ class MovieFeaturesDto(BaseModel):
     certificate: int
 
 class RecommendationDto(BaseModel):
-    input: str
+    summary: str
+    actors: str
+    directors: str
+    genres: List[str]

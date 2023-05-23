@@ -34,7 +34,9 @@ def get_neighbors(input_data: NeighborInput):
 
 @app.post("/recommend")
 def get_recommendations(input_data: dtos.RecommendationDto):
-    return recommender_service.get_recommendations(input_data.input)
+    return recommender_service.get_recommendations(input_data.summary)
+# , input_data.actors, input_data.directors, input_data.genres
+
 
 @app.get("/embeddings")
 def get_embeddings() -> List[dict]:
