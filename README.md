@@ -8,7 +8,7 @@
 
 ### Notebooks:
 1. Navigate to the notebooks folder
-2. Run the following notebooks to save the models to the correct folder (these are ignored on git)
+2. Run the following notebooks to save the models to the correct folder (these are ignored on git). This step is required to run the server.
 - Movie Earnings Classifier.ipynb
 - Naive_bayes_sentiment_analysis.ipynb
 
