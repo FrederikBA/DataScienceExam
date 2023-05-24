@@ -2,6 +2,7 @@ absl-py @ file:///C:/b/abs_5babsu7y5x/croot/absl-py_1666362945682/work
 anyio @ file:///home/conda/feedstock_root/build_artifacts/anyio_1666191106763/work/dist
 appdirs==1.4.4
 astunparse==1.6.3
+beautifulsoup4 @ file:///home/conda/feedstock_root/build_artifacts/beautifulsoup4_1680888073205/work
 blinker==1.4
 blis @ file:///C:/b/abs_0asxckc55t/croot/cython-blis_1684139877472/work
 Bottleneck @ file:///C:/Windows/Temp/abs_3198ca53-903d-42fd-87b4-03e6d03a8381yfwsuve8/croots/recipe/bottleneck_1657175565403/work
@@ -20,12 +21,15 @@ dataclasses @ file:///home/conda/feedstock_root/build_artifacts/dataclasses_1628
 en-core-web-md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.5.0/en_core_web_md-3.5.0-py3-none-any.whl
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.5.0/en_core_web_sm-3.5.0-py3-none-any.whl
 fastapi @ file:///home/conda/feedstock_root/build_artifacts/fastapi_1684266487947/work
+filelock @ file:///home/conda/feedstock_root/build_artifacts/filelock_1681839547898/work
 flatbuffers @ file:///home/ktietz/cip/python-flatbuffers_1634039120618/work
 future @ file:///home/conda/feedstock_root/build_artifacts/future_1673596611778/work
 gast @ file:///Users/ktietz/demo/mc3/conda-bld/gast_1628588903283/work
+gdown @ file:///home/conda/feedstock_root/build_artifacts/gdown_1679726698720/work
 google-auth @ file:///tmp/build/80754af9/google-auth_1600960338579/work
 google-auth-oauthlib @ file:///tmp/build/80754af9/google-auth-oauthlib_1617120569401/work
 google-pasta @ file:///Users/ktietz/demo/mc3/conda-bld/google-pasta_1630577991354/work
+googledrivedownloader @ file:///home/conda/feedstock_root/build_artifacts/googledrivedownloader_1619807768586/work
 grpcio @ file:///C:/ci/grpcio_1655475084232/work
 h11 @ file:///home/conda/feedstock_root/build_artifacts/h11_1664132893548/work
 h5py @ file:///C:/ci/h5py_1659089830381/work
@@ -72,6 +76,7 @@ shellingham @ file:///home/conda/feedstock_root/build_artifacts/shellingham_1676
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
 smart-open @ file:///home/conda/feedstock_root/build_artifacts/smart_open_1630238320325/work
 sniffio @ file:///home/conda/feedstock_root/build_artifacts/sniffio_1662051266223/work
+soupsieve @ file:///home/conda/feedstock_root/build_artifacts/soupsieve_1658207591808/work
 spacy @ file:///C:/b/abs_2dtks5gwjb/croot/spacy_1684329083461/work
 spacy-legacy @ file:///home/conda/feedstock_root/build_artifacts/spacy-legacy_1674550301837/work
 spacy-loggers @ file:///home/conda/feedstock_root/build_artifacts/spacy-loggers_1672303484730/work
