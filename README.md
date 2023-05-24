@@ -3,11 +3,20 @@
 </p>
 
 ## Dependencies
+For Windows:
 ```python
 conda create -n datascience_movie_exam python=3.10.11 -y
 conda activate datascience_movie_exam
 pip install -r requirements.txt
 ```
+
+For Mac with M1-Chipset
+```python
+conda create -n datascience_movie_exam python=3.10.11 -y
+conda activate datascience_movie_exam
+pip install -r requirementsmac.txt
+```
+
 Then run the following python script to download Google Sentence Encoder:
 (Make sure you're standing in the root of the project in your terminal)
 
