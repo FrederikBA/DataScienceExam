@@ -3,6 +3,9 @@
 </p>
 
 ## Dependencies
+```sh
+pip install -r requirements.txt
+```
 
 ## Usage
 
