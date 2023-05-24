@@ -3,8 +3,16 @@
 </p>
 
 ## Dependencies
-```sh
+```python
+conda create -n datascience_movie_exam python=3.10.11 -y
+conda activate datascience_movie_exam
 pip install -r requirements.txt
+```
+Then run the following python script to download Google Sentence Encoder:
+(Make sure you're standing in the root of the project in your terminal)
+
+```python
+python .\download_Google_Sentence_Encoder.py
 ```
 
 ## Usage
