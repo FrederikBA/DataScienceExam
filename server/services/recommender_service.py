@@ -36,33 +36,26 @@ all_genres = set(genre for genres in df['genre'] for genre in genres)
 # Fit MultiLabelBinarizer to all genres
 mlb.fit([list(all_genres)])
 
-
 #Transform genre strings to binary encoding and add to DataFrame
 genre_transformed = mlb.transform(df['genre'].tolist())
 df_genres = pd.DataFrame(genre_transformed, columns=mlb.classes_)
 df = pd.concat([df, df_genres], axis=1)
 del df['genre']  # delete the old genre column
 
-print(f'The shape of df_genres: {df_genres.shape}')
-
 # Get genre binary encodings as numpy array
 genres = df[mlb.classes_].to_numpy()
 
-# Generate embeddings for summaries, actors, directors
+# Generate embeddings for summaries, actors
 summaries = list(df['summary'])
 embeddings = embed(summaries)
 
 actors = list(df['actors'])
 actors_embeddings = embed(actors)
 
-# directors = list(df['directors'])
-# directors_embeddings = embed(directors)
-
 # Concatenate all features
-# all_features = np.concatenate((embeddings, actors_embeddings, directors_embeddings, genres), axis=1)
 all_features = np.concatenate((embeddings, actors_embeddings, genres), axis=1)
 
-#Fit Nearest Neighbors to all features
+#Fit Nearest Neighbors to all features and using the scalar to ensure everything is weighted correctly.
 scaler = StandardScaler()
 all_features_normalized = scaler.fit_transform(all_features)
 
@@ -71,38 +64,21 @@ nn.fit(all_features_normalized)
 
 
 def extract_input_genres(text):
+    """ Extracting genres from the input string """
     doc = nlp(text)
-    print(f'The input text: {text}')
     genres_in_text = [token.lemma_.lower() for token in doc if token.lemma_.lower() in mlb.classes_]
-    print(f'mlb.classes_ print statement: {mlb.classes_}')
-    print(f'Genres in the input text: {genres_in_text}')
     input_genres_encoded = mlb.transform([genres_in_text])
-    print(f'Input genres after being encoded with mlb.transform: {input_genres_encoded}')
     return input_genres_encoded
 
-
-
 def preprocess_text(text):
-    
-    # Tokenize the text and remove stop words and punctuation
+    """ Tokenizing the text """
     doc = nlp(text)
     tokens = [token.lemma_.lower() for token in doc if not token.is_digit]
-
     return tokens
 
-
-
 def get_recommendations(summary: str):
-    # , actors: str, directors: str, genres: List[str]
-    # unction to get recommendations for a movie with given summary, actors, directors, genres
-
-
-    # Genre
+    """ Very scuffed docstring """
     genre = extract_input_genres(summary)
-    print(f'Output from extract_input_genres function: {genre}')
-
-    
-    #Generate embeddings for summary, actors, directors
     summary_emb = embed([summary])
 
     # Actors
@@ -114,19 +90,13 @@ def get_recommendations(summary: str):
         if(entity.label_ == "PERSON"): 
             actor_entities.append(entity.text)
 
-    # Generate embeddings for actors, but check if the list is not empty
+    # Here we checks if the list is not empty
     if actor_entities:  # this checks if the list is not empty
         actor_entities = ', '.join(actor_entities)
         print(actor_entities)
         actors_emb = embed([actor_entities])
-
     else:
         actors_emb = np.zeros_like(summary_emb)  # replace with a zero array of the same shape
-
-    # directors_emb = embed([directors])
-    
-    # Convert input genres to binary encoding
-    # input_genres_encoded = mlb.transform([genres])
 
     # Now concatenate including genre
     emb = np.concatenate((summary_emb, actors_emb, genre), axis=1)
@@ -134,8 +104,7 @@ def get_recommendations(summary: str):
     # Apply the same normalization
     emb = scaler.transform(emb)
     
-    # , directors_emb, input_genres_encoded
-    
+    #Prediction
     neighbors = nn.kneighbors(emb, return_distance=False)[0]
     recommended_movies = df.iloc[neighbors]
     
@@ -157,20 +126,20 @@ def get_recommendations(summary: str):
     return viewModel
 
 def get_embeddings() -> List[dict]:
-    # Function to get 2D embeddings for visualization
+    """ Function to get 2D embeddings for visualization """
 
     tsne = TSNE(n_components=2)
     embeddings_2d = tsne.fit_transform(embeddings)
 
     embeddings_data = []
+
     for idx, row in df.iterrows():
         embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"], "marker": {"color": 'red'}})
     
-
     return embeddings_data
 
 def get_neighbors(input_data: str) -> GraphDTO:
-    # Function to get nearest neighbors to a given input
+    """ Function to get nearest neighbors to a given input """
 
     emb = embed([input_data])
     neighbors = nn.kneighbors(emb, return_distance=False)[0]
@@ -178,9 +147,10 @@ def get_neighbors(input_data: str) -> GraphDTO:
 
     nodes = []
     links = []
+
     for idx, row in recommended_movies.iterrows():
         nodes.append({"id": row["title"], "label": row["title"]})
         links.append({"source": input_data, "target": row["title"]})
-
     graph_data = GraphDTO(nodes=nodes, links=links)
+
     return graph_data
