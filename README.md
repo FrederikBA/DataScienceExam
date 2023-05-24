@@ -1,6 +1,6 @@
 # Client/Server with FastAPI and React
 
-This project provides a movie recommendation system developed using FastAPI and React. The movie recommendation model makes use of a pre-trained Google Sentence Encoder. This readme provides instructions on how to set up the project.
+Movie Exam Project in Data Science Class.
 
 ## Setup
 
