@@ -1,26 +1,34 @@
-<h1 align="center">Client/Server with FastAPI and React</h1>
-<p>
-</p>
+# Client/Server with FastAPI and React
 
-## Dependencies
-For Windows:
-```python
+This project provides a movie recommendation system developed using FastAPI and React. The movie recommendation model makes use of a pre-trained Google Sentence Encoder. This readme provides instructions on how to set up the project.
+
+## Setup
+
+### Prerequisites
+
+Make sure you have Anaconda or Miniconda installed to manage environments and dependencies. Also, you will need npm for client-side dependency management.
+
+### Environment and Dependency Setup
+
+#### Windows:
+
+```bash
 conda create -n datascience_movie_exam python=3.10.11 -y
 conda activate datascience_movie_exam
 pip install -r requirements.txt
 ```
 
-For Mac with M1-Chipset
-```python
+#### Mac with M1-Chipset:
+
+```bash
 conda create -n datascience_movie_exam python=3.10.11 -y
 conda activate datascience_movie_exam
 pip install -r requirementsmac.txt
 ```
 
-Then run the following python script to download Google Sentence Encoder:
-(Make sure you're standing in the root of the project in your terminal)
+After setting up the environment and installing the dependencies, run the following Python script to download the Google Sentence Encoder. Make sure you're at the root of the project in your terminal:
 
-```python
+```bash
 python .\download_Google_Sentence_Encoder.py
 ```
 
