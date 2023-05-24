@@ -2,6 +2,9 @@
 
 **Movie Exam Project in Data Science Class**
 
+Problem Definition:
+[Problem Definition]([https://github.com/user/repo/blob/branch/other_file.md](https://github.com/FrederikBA/DataScienceExam/blob/main/documents/problem%20definition.md))
+
 ---
 
 ## Setup
