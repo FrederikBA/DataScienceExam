@@ -10,8 +10,8 @@ import numpy as np
 from sklearn.preprocessing import MultiLabelBinarizer
 import spacy
 
-#nlp = spacy.load("en_core_web_sm")
-# mlb = MultiLabelBinarizer()
+nlp = spacy.load("en_core_web_sm")
+mlb = MultiLabelBinarizer()
 
 # Load Universal Sentence Encoder from local directory
 model_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pre_trained_models")
@@ -23,21 +23,29 @@ def embed(texts):
 
 df = pd.read_csv('../data/movies.csv')
 df = df[["title", "genre", "summary", "directors", "actors", "Poster"]]
-# df['genre'] = df['genre'].str.split(', ')
 
-# Find all unique genres
-# all_genres = set(genre for genres in df['genre'] for genre in genres)
+# Get genre information from DataFrame and split each string into a list of genres
+df['genre'] = df['genre'].str.split(', ')
+
+# Convert all genres to lowercase
+df['genre'] = df['genre'].apply(lambda x: [genre.lower() for genre in x])
+
+all_genres = set(genre for genres in df['genre'] for genre in genres)
 
 # Fit MultiLabelBinarizer to all genres
-# mlb.fit([list(all_genres)])
+mlb.fit([list(all_genres)])
+
 
 #Transform genre strings to binary encoding and add to DataFrame
-# genre_transformed = mlb.transform(df['genre'].tolist())
-# df_genres = pd.DataFrame(genre_transformed, columns=mlb.classes_)
-# df = pd.concat([df, df_genres], axis=1)
-# del df['genre']  # delete the old genre column
+genre_transformed = mlb.transform(df['genre'].tolist())
+df_genres = pd.DataFrame(genre_transformed, columns=mlb.classes_)
+df = pd.concat([df, df_genres], axis=1)
+del df['genre']  # delete the old genre column
 
-# print(df_genres.shape)
+print(f'The shape of df_genres: {df_genres.shape}')
+
+# Get genre binary encodings as numpy array
+genres = df[mlb.classes_].to_numpy()
 
 # Generate embeddings for summaries, actors, directors
 summaries = list(df['summary'])
@@ -49,52 +57,73 @@ actors_embeddings = embed(actors)
 # directors = list(df['directors'])
 # directors_embeddings = embed(directors)
 
-# Get genre binary encodings as numpy array
-# genres = df[mlb.classes_].to_numpy()
-
 # Concatenate all features
 # all_features = np.concatenate((embeddings, actors_embeddings, directors_embeddings, genres), axis=1)
 all_features = np.concatenate((embeddings, actors_embeddings), axis=1)
-# print('all_features shape:', all_features.shape)
 
 #Fit Nearest Neighbors to all features
 nn = NearestNeighbors(n_neighbors=10)
 nn.fit(all_features)
 
-#def preprocess_text(text):
+
+def extract_input_genres(text):
+    doc = nlp(text)
+    print(f'The input text: {text}')
+    genres_in_text = [token.lemma_.lower() for token in doc if token.lemma_.lower() in mlb.classes_]
+    print(f'mlb.classes_ print statement: {mlb.classes_}')
+    print(f'Genres in the input text: {genres_in_text}')
+    input_genres_encoded = mlb.transform([genres_in_text])
+    print(f'Input genres after being encoded with mlb.transform: {input_genres_encoded}')
+    return input_genres_encoded
+
+
+
+def preprocess_text(text):
     
     # Tokenize the text and remove stop words and punctuation
-    #doc = nlp(text)
-    #tokens = [token.lemma_.lower() for token in doc if not token.is_stop and not token.is_punct and not token.is_digit]
+    doc = nlp(text)
+    tokens = [token.lemma_.lower() for token in doc if not token.is_stop and not token.is_punct and not token.is_digit]
 
-    #return tokens
+    return tokens
 
 
-def get_recommendations(summary: str) -> List[dict]:
+
+def get_recommendations(summary: str):
     # , actors: str, directors: str, genres: List[str]
     # unction to get recommendations for a movie with given summary, actors, directors, genres
 
-    
+
+    # Genre
+    #genre = extract_input_genres(summary)
+    #print(f'Output from extract_input_genres function: {genre}')
+
     
     #Generate embeddings for summary, actors, directors
     summary_emb = embed([summary])
 
     # Actors
     actor_entities = []
-    # sample_processed = (" ").join(preprocess_text(summary))
-    # doc = nlp(sample_processed)
-    # for entity in doc.ents:
-    #     print(entity.text)
-    #     if(entity.label_ == "PERSON"): 
-    #         actor_entities.append(entity.text)
+    sample_processed = (" ").join(preprocess_text(summary))
+    doc = nlp(sample_processed)
+    for entity in doc.ents:
+        print(f'Actor output from entity.text: {entity.text}')
+        if(entity.label_ == "PERSON"): 
+            actor_entities.append(entity.text)
 
-    actors_emb = embed([actors])
+    # Generate embeddings for actors, but check if the list is not empty
+    if actor_entities:  # this checks if the list is not empty
+        actors_emb = embed(actor_entities)
+    else:
+        actors_emb = np.zeros_like(summary_emb)  # replace with a zero array of the same shape
+
     # directors_emb = embed([directors])
     
     # Convert input genres to binary encoding
     # input_genres_encoded = mlb.transform([genres])
 
+    # Now concatenate including genre
     emb = np.concatenate((summary_emb, actors_emb), axis=1)
+    #genre
     # , directors_emb, input_genres_encoded
     
     neighbors = nn.kneighbors(emb, return_distance=False)[0]

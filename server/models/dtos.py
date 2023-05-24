@@ -19,6 +19,4 @@ class MovieFeaturesDto(BaseModel):
 
 class RecommendationDto(BaseModel):
     summary: str
-    actors: str
-    directors: str
-    genres: List[str]
+

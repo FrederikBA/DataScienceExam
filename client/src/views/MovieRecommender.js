@@ -24,7 +24,8 @@ const MovieRecommender = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await api.getAxios().post(api.getUrl() + "/recommend", { input: input });
+    const response = await api.getAxios().post(api.getUrl() + "/recommend", { summary: input });
+
     if (response.data) {
       setRecommendations(response.data.recommendations);
       console.log(recommendations)
