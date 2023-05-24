@@ -8,9 +8,10 @@ from sklearn.manifold import TSNE
 import os
 import numpy as np
 from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.preprocessing import StandardScaler
 import spacy
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_md")
 mlb = MultiLabelBinarizer()
 
 # Load Universal Sentence Encoder from local directory
@@ -59,11 +60,14 @@ actors_embeddings = embed(actors)
 
 # Concatenate all features
 # all_features = np.concatenate((embeddings, actors_embeddings, directors_embeddings, genres), axis=1)
-all_features = np.concatenate((embeddings, actors_embeddings), axis=1)
+all_features = np.concatenate((embeddings, actors_embeddings, genres), axis=1)
 
 #Fit Nearest Neighbors to all features
+scaler = StandardScaler()
+all_features_normalized = scaler.fit_transform(all_features)
+
 nn = NearestNeighbors(n_neighbors=10)
-nn.fit(all_features)
+nn.fit(all_features_normalized)
 
 
 def extract_input_genres(text):
@@ -82,7 +86,7 @@ def preprocess_text(text):
     
     # Tokenize the text and remove stop words and punctuation
     doc = nlp(text)
-    tokens = [token.lemma_.lower() for token in doc if not token.is_stop and not token.is_punct and not token.is_digit]
+    tokens = [token.lemma_.lower() for token in doc if not token.is_digit]
 
     return tokens
 
@@ -94,8 +98,8 @@ def get_recommendations(summary: str):
 
 
     # Genre
-    #genre = extract_input_genres(summary)
-    #print(f'Output from extract_input_genres function: {genre}')
+    genre = extract_input_genres(summary)
+    print(f'Output from extract_input_genres function: {genre}')
 
     
     #Generate embeddings for summary, actors, directors
@@ -112,7 +116,10 @@ def get_recommendations(summary: str):
 
     # Generate embeddings for actors, but check if the list is not empty
     if actor_entities:  # this checks if the list is not empty
-        actors_emb = embed(actor_entities)
+        actor_entities = ', '.join(actor_entities)
+        print(actor_entities)
+        actors_emb = embed([actor_entities])
+
     else:
         actors_emb = np.zeros_like(summary_emb)  # replace with a zero array of the same shape
 
@@ -122,8 +129,11 @@ def get_recommendations(summary: str):
     # input_genres_encoded = mlb.transform([genres])
 
     # Now concatenate including genre
-    emb = np.concatenate((summary_emb, actors_emb), axis=1)
-    #genre
+    emb = np.concatenate((summary_emb, actors_emb, genre), axis=1)
+
+    # Apply the same normalization
+    emb = scaler.transform(emb)
+    
     # , directors_emb, input_genres_encoded
     
     neighbors = nn.kneighbors(emb, return_distance=False)[0]
