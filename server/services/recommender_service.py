@@ -76,14 +76,14 @@ def preprocess_text(text):
     tokens = [token.lemma_.lower() for token in doc if not token.is_digit]
     return tokens
 
-def get_recommendations(summary: str):
+def get_recommendations(input_text: str):
     """ Very scuffed docstring """
-    genre = extract_input_genres(summary)
-    summary_emb = embed([summary])
+    genre = extract_input_genres(input_text)
+    input_text_emb = embed([input_text])
 
     # Actors
     actor_entities = []
-    sample_processed = (" ").join(preprocess_text(summary))
+    sample_processed = (" ").join(preprocess_text(input_text))
     doc = nlp(sample_processed)
     for entity in doc.ents:
         print(f'Actor output from entity.text: {entity.text}')
@@ -96,10 +96,10 @@ def get_recommendations(summary: str):
         print(actor_entities)
         actors_emb = embed([actor_entities])
     else:
-        actors_emb = np.zeros_like(summary_emb)  # replace with a zero array of the same shape
+        actors_emb = np.zeros_like(input_text_emb)  # replace with a zero array of the same shape
 
     # Now concatenate including genre
-    emb = np.concatenate((summary_emb, actors_emb, genre), axis=1)
+    emb = np.concatenate((input_text_emb, actors_emb, genre), axis=1)
 
     # Apply the same normalization
     emb = scaler.transform(emb)

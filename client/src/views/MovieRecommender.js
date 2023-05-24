@@ -75,7 +75,7 @@ const MovieRecommender = () => {
       <h1>Movie Recommender</h1>
       <div className="text-area-div">
         <form className="form-group text-area" onSubmit={handleSubmit}>
-          <label htmlFor="summary">Enter a movie summary:</label>
+          <label htmlFor="summary">Descripe what kind of movie you want to see, you can include actor names and genres if you wish:</label>
           <textarea className="form-control text-area" id="summary" value={input} onChange={(e) => setInput(e.target.value)} />
           <button className="btn btn-secondary generate-btn" type="submit">Generate Recommendations</button>
         </form>
