@@ -28,15 +28,9 @@ app.add_middleware(
 def read_root():
     return "Welcome to the Data Science course exam API!"
 
-@app.post("/neighbors")
-def get_neighbors(input_data: NeighborInput):
-    return recommender_service.get_neighbors(input_data.input)
-
 @app.post("/recommend")
 def get_recommendations(input_data: dtos.RecommendationDto):
     return recommender_service.get_recommendations(input_data.summary)
-# , input_data.actors, input_data.directors, input_data.genres
-
 
 @app.get("/embeddings")
 def get_embeddings() -> List[dict]:

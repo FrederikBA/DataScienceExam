@@ -137,20 +137,3 @@ def get_embeddings() -> List[dict]:
         embeddings_data.append({"x": float(embeddings_2d[idx][0]), "y": float(embeddings_2d[idx][1]), "title": row["title"], "description": row["summary"], "marker": {"color": 'red'}})
     
     return embeddings_data
-
-def get_neighbors(input_data: str) -> GraphDTO:
-    """ Function to get nearest neighbors to a given input """
-
-    emb = embed([input_data])
-    neighbors = nn.kneighbors(emb, return_distance=False)[0]
-    recommended_movies = df.iloc[neighbors]
-
-    nodes = []
-    links = []
-
-    for idx, row in recommended_movies.iterrows():
-        nodes.append({"id": row["title"], "label": row["title"]})
-        links.append({"source": input_data, "target": row["title"]})
-    graph_data = GraphDTO(nodes=nodes, links=links)
-
-    return graph_data

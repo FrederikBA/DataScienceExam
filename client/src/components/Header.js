@@ -9,9 +9,6 @@ const Header = () => {
                     <li><NavLink to='/'>Review Graph</NavLink></li>
                     <li><NavLink to='/earnings'>Predict Earnings</NavLink></li>
                     <li><NavLink to='/movie'>Movie Recommendations</NavLink></li>
-                    <li><NavLink to='/recommendations'>Recommendations</NavLink></li>
-                    <li><NavLink to='/neighbors'>Neighbors</NavLink></li>
-                    <li><NavLink to='/evaluation'>Evaluation</NavLink></li>
                     <li><NavLink to='/sentiment'>Sentiment Prediction</NavLink></li>
                 </ul>
             </nav>
